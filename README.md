@@ -22,6 +22,8 @@ This repository contains the planning and design of the distributed network infr
 
 ## Repository Structure
 ---
+
+```text
 3S-Integrative-Project/
 ├── network/          
 │   ├── diagrams/     
@@ -32,7 +34,7 @@ This repository contains the planning and design of the distributed network infr
 ├── docs/             
 ├── LICENSE           
 └── README.md         
-
+```
 ---
 
 ## Technologies Used
