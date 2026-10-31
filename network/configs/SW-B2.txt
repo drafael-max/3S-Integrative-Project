@@ -1,0 +1,43 @@
+! =====================================================================
+! SW-B2 - Site B secondary access switch (Cisco 2960-24TT, Packet Tracer)
+! Phase 2 - configuration backup (commands applied to the device)
+! Secrets are intentionally redacted: <REDACTED>.
+! =====================================================================
+hostname SW-B2
+no ip domain-lookup
+ip domain-name siteb.uide.local
+service password-encryption
+enable secret <REDACTED>
+username netadmin privilege 15 secret <REDACTED>
+banner motd #Authorized access only - SW-B2#
+!
+interface Vlan1
+ description Temporary mgmt SVI (moves to VLAN 99 in Phase 3)
+ ip address 10.10.0.67 255.255.255.192
+ no shutdown
+!
+ip default-gateway 10.10.0.65
+!
+interface GigabitEthernet0/2
+ description Link to SW-B1 Gi0/2 (future EtherChannel/trunk)
+!
+interface GigabitEthernet0/1
+ description UNUSED
+ shutdown
+!
+interface FastEthernet0/1
+ description PC-B2 Users
+ spanning-tree portfast
+!
+interface range FastEthernet0/2 - 24
+ description UNUSED
+ shutdown
+!
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+line vty 0 15
+ login local
+ transport input ssh
+!
+end
+write memory

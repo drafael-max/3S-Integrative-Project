@@ -1,0 +1,43 @@
+! =====================================================================
+! SW-A1 - Site A primary access switch (Cisco 2960-24TT, Packet Tracer)
+! Phase 2 - configuration backup (commands applied to the device)
+! Secrets are intentionally redacted: <REDACTED>.
+! =====================================================================
+hostname SW-A1
+no ip domain-lookup
+ip domain-name sitea.uide.local
+service password-encryption
+enable secret <REDACTED>
+username netadmin privilege 15 secret <REDACTED>
+banner motd #Authorized access only - SW-A1#
+!
+! Temporary management SVI in VLAN 1 (moves to VLAN 99 / 10.10.0.208/28 in Phase 3)
+interface Vlan1
+ description Temporary mgmt SVI (moves to VLAN 99 in Phase 3)
+ ip address 10.10.0.2 255.255.255.192
+ no shutdown
+!
+ip default-gateway 10.10.0.1
+!
+interface GigabitEthernet0/1
+ description Uplink to R-A Gi0/0
+!
+interface GigabitEthernet0/2
+ description Link to SW-A2 Gi0/2 (future EtherChannel/trunk)
+!
+interface FastEthernet0/1
+ description PC-A1 Users
+ spanning-tree portfast
+!
+interface range FastEthernet0/2 - 24
+ description UNUSED
+ shutdown
+!
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+line vty 0 15
+ login local
+ transport input ssh
+!
+end
+write memory

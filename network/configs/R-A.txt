@@ -1,0 +1,54 @@
+! =====================================================================
+! R-A - Site A edge router (Cisco 2911, Packet Tracer prototype)
+! Phase 2 - configuration backup (commands applied to the device)
+! Secrets are intentionally redacted: <REDACTED>. Never commit real credentials.
+! Authoritative copy: network/packet-tracer/Phase2_Prototype.pkt
+! =====================================================================
+hostname R-A
+no ip domain-lookup
+ip domain-name sitea.uide.local
+service password-encryption
+enable secret <REDACTED>
+username netadmin privilege 15 secret <REDACTED>
+banner motd #Authorized access only - Site A edge router#
+!
+interface GigabitEthernet0/0
+ description LAN Site A Users 10.10.0.0/26 -> SW-A1 Gi0/1
+ ip address 10.10.0.1 255.255.255.192
+ no shutdown
+!
+interface GigabitEthernet0/1
+ description WAN to R-B Gi0/1 (emulates shared Wi-Fi 192.168.100.0/24)
+ ip address 192.168.100.10 255.255.255.0
+ no shutdown
+!
+interface GigabitEthernet0/2
+ shutdown
+!
+! ---- DHCP (active user segment only; other VLANs pending) ----
+ip dhcp excluded-address 10.10.0.1 10.10.0.10
+ip dhcp pool SITEA-USERS
+ network 10.10.0.0 255.255.255.192
+ default-router 10.10.0.1
+ dns-server 8.8.8.8
+ domain-name sitea.uide.local
+!
+! ---- Temporary static route (replaced by OSPFv2 Area 0 in Phase 3) ----
+ip route 10.10.0.64 255.255.255.192 192.168.100.11
+!
+! ---- Secure management (SSHv2 only, local user) ----
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+!
+line con 0
+ logging synchronous
+ exec-timeout 10 0
+line vty 0 4
+ login local
+ transport input ssh
+ exec-timeout 10 0
+!
+end
+write memory
