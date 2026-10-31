@@ -97,7 +97,7 @@ No passwords, tokens or private keys are stored in this repository. Secrets in t
 
 ## Attribution and AI Assistance Disclosure
 ---
-In accordance with UIDE academic integrity requirements, the team discloses that generative AI tools (Anthropic Claude and Google Gemini) were used to help review the assignment requirements, draft Cisco IOS configuration commands and documentation text. All configurations were applied, tested and verified by the team in Cisco Packet Tracer, and the team is responsible for the final content. Reference architecture: *Proyecto Integrador - Tercer Nivel*, UIDE.
+In accordance with UIDE’s academic integrity requirements, the team reports that generative AI tools (Anthropic Claude and Google Gemini) were used to assist in reviewing assignment requirements, drafting Cisco IOS configuration commands, and preparing the documentation text. All configurations were applied, tested, and verified by the team. Furthermore, full responsibility rests with the group that is, with us: Rafael and Luis.
 
 ---
 
